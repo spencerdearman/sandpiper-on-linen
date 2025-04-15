@@ -10,7 +10,9 @@ async function createGIF (x, y) {
   const gif = await nn.loadImage(GIF)
   
   nn.create('img')
-    .set({ src: GIF })
+    .set({ 
+      src: `${GIF}#${Math.random()}`
+    })
     .css({
       position: 'absolute',
       left: x - gif.width / 2,
@@ -25,10 +27,18 @@ async function setup () {
   
   const gif = await nn.loadImage(GIF)
   
-  for (let i = 0; i < 100; i++) {
-    const x = i * gif.width / 3 // center: nn.width / 2
-    const y = nn.height / 2
-    createGIF(x, y)
+  const colSize = gif.width / 3
+  const numCols = nn.width / colSize
+  
+  const rowSize = gif.height / 2
+  const numRows = nn.height * 0.75 / rowSize
+  
+  for (let r = 0; r < numRows; r++) {
+    for (let c = 0; c < numCols; c++) {
+      const x = c * colSize // center: nn.width / 2
+      const y = r * rowSize
+      createGIF(x, y)
+    } 
   }
 }
   
